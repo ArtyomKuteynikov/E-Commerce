@@ -1,0 +1,89 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block content %}
+<div class="Middle Middle_top">
+    <div class="Section Section_column Section_columnLeft">
+        <div class="wrap">
+            <div class="Section-column">
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">Навигация
+                        </strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <div class="NavigateProfile">
+                            <ul class="menu menu_vt">
+                                <li class="menu-item"><a class="menu-link" href="{% url 'profile' %}"
+                                >Личный кабинет</a>
+                                </li>
+                                <li class="menu-item"><a class="menu-link" href="{% url 'edit_profile' %}">Профиль</a>
+                                </li>
+                                <li class="menu-item menu-item_ACTIVE"><a class="menu-link" href="{% url 'history' %}"
+                                >История заказов</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Section-content">
+                <div class="Orders">
+                    {% for last_order in orders %}
+                    <div class="Order Order_anons">
+                        <div class="Order-personal">
+                            <div class="row">
+                                <div class="row-block"><a class="Order-title"
+                                                          href="/order/{{last_order.id}}">Заказ&#32;<span
+                                        class="Order-numberOrder">№{{last_order.id}}</span>&#32;от&#32;<span
+                                        class="Order-dateOrder">{{last_order.created}}</span></a>
+                                </div>
+                                <div class="row-block">
+                                    <div class="Order-info Order-info_delivery">
+                                        <div class="Order-infoType">Тип доставки:
+                                        </div>
+                                        <div class="Order-infoContent">{% if last_order.delivery.name == 'express' %}
+                                            Экспресс доставка{%else%}Обычная доставка{%endif%}
+                                        </div>
+                                    </div>
+                                    <div class="Order-info Order-info_pay">
+                                        <div class="Order-infoType">Оплата:
+                                        </div>
+                                        <div class="Order-infoContent">
+                                            {% if last_order.payment_method == 1 %}
+                                            Онлайн картой
+                                            {% else %}
+                                            Онлайн со случайного чужого счета
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="Order-info">
+                                        <div class="Order-infoType">Общая стоимость:
+                                        </div>
+                                        <div class="Order-infoContent">
+                                            {{last_order.get_total_cost}}₽
+                                        </div>
+                                    </div>
+                                    <div class="Order-info Order-info_status">
+                                        <div class="Order-infoType">Статус:
+                                        </div>
+                                        <div class="Order-infoContent">
+                                            {% if last_order.paid == 1 %}
+                                            ОПЛАЧЕН
+                                            {% elif last_order.paid == 2 %}
+                                            ОШИБКА ОПЛАТЫ
+                                            {% else %}
+                                            НЕ ОПЛАЧЕН
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1 @@
+[{"model": "shop.profile", "pk": 1, "fields": {"user": 3, "image": "profile_pics/bigGoods.png", "phone": "+79000000000", "email": "example@example.com"}}, {"model": "shop.profile", "pk": 2, "fields": {"user": 1, "image": "profile_pics/bigGoods_0ZKqK1i.png", "phone": "+79000000000", "email": "example@example.com"}}]

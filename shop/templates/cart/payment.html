@@ -1,0 +1,51 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block content %}
+<div class="Middle Middle_top">
+    <div class="Middle-top">
+        <div class="wrap">
+            <div class="Middle-header">
+                <h1 class="Middle-title">Оплата
+                </h1>
+                <ul class="breadcrumbs Middle-breadcrumbs">
+                    <li class="breadcrumbs-item"><a href="../shop/index.html">home</a>
+                    </li>
+                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оплата</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="Section">
+        <div class="wrap">
+            <form class="form Payment" action="/cart/pay/{{order.id}}" method="get">
+                <div class="Payment-card">
+                    <div class="form-group">
+                        <label class="form-label">Номер карты
+                        </label>
+                        <div class="row">
+                            <input class="form-input Payment-bill form-input_error" id="numero1"
+                                   type="text" name="card"
+                                   placeholder="9999 9999" data-mask="99999999" data-validate="require pay"
+                                   maxlength="8">
+                            {% if payment_method == 0 %}
+                            <a onclick="random()" class="btn btn_primary">Сгенерировать случайный счет</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="Payment-pay">
+                        <button type="submit" class="btn btn_primary">Оплатить</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function getRandomInt(min, max) {
+        return (Math.floor(Math.random() * (max-min)) + min);
+    }
+    function random() {
+        document.getElementById('numero1').value = getRandomInt(10000000, 99999999);
+    }
+</script>
+{% endblock %}

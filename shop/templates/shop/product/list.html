@@ -1,0 +1,131 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+<div id="sidebar">
+</div>
+<div id="main" class="product-list">
+    <div class="Middle Middle_top">
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+                <div class="Section-column">
+                    <div class="Section-columnSection">
+                        <header class="Section-header">
+                            <strong class="Section-title">Фильтр
+                            </strong>
+                        </header>
+                        <div class="Section-columnContent">
+                            <form class="form" action="/catalog/" method="get">
+                                <div class="form-group">
+                                    <div class="range Section-columnRange">
+                                        <input class="range-line" id="price" name="price" type="text" data-type="double"
+                                               data-min="{{price_min}}" data-max="{{price_max}}"
+                                               data-from="{{min_price}}" data-to="{{max_price}}"/>
+                                        <div class="range-price">Цена:&#32;
+                                            <div class="rangePrice">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-input form-input_full" id="title" name="q" type="text"
+                                           placeholder="Название" value="{{name}}"/>
+                                    <input class="form-input form-input_full" id="title" name="producer" type="text"
+                                           placeholder="Производитель" value="{{producer}}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="toggle">
+                                        <input type="checkbox" name="stock"/><span class="toggle-box"></span><span
+                                            class="toggle-text">Только товары в наличии</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="buttons">
+                                        <button class="btn btn_square btn_dark btn_narrow" href="#" type="submit">
+                                            Фильтр
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-content">
+                    <div class="Sort">
+                        <div class="Sort-title">Сортировать по:
+                        </div>
+                        <div class="Sort-variants">
+                            {% if sort == 'bought' %}
+                            <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog?sort=-bought">Популярности</a>
+                            {% elif sort == '-bought' %}
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog?sort=bought">Популярности</a>
+                            {% else %}
+                            <a class="Sort-sortBy Sort-sortBy" href="/catalog?sort=-bought">Популярности</a>
+                            {% endif %}
+
+                            {% if sort == 'price' %}
+                            <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog?sort=-price">Цене</a>
+                            {% elif sort == '-price' %}
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog?sort=price">Цене</a>
+                            {% else %}
+                            <a class="Sort-sortBy Sort-sortBy" href="/catalog?sort=-price">Цене</a>
+                            {% endif %}
+
+                            {% if sort == 'reviews' %}
+                            <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog?sort=-reviews">Отзывам</a>
+                            {% elif sort == '-reviews' %}
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog?sort=reviews">Отзывам</a>
+                            {% else %}
+                            <a class="Sort-sortBy Sort-sortBy" href="/catalog?sort=-reviews">Отзывам</a>
+                            {% endif %}
+
+                            {% if sort == '-id' %}
+                            <a class="Sort-sortBy Sort-sortBy_dec" href="/catalog?sort=id">Новизне</a>
+                            {% elif sort == 'id' %}
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="/catalog?sort=-id">Новизне</a>
+                            {% else %}
+                            <a class="Sort-sortBy Sort-sortBy" href="/catalog?sort=-id">Новизне</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="Cards">
+                        {% for card in products %}
+                        <div class="Card"><a class="Card-picture" href="/product/{{card.slug}}"><img
+                                src="/media/{{card.image}}" alt="card.jpg"/></a>
+                            <div class="Card-content">
+                                <strong class="Card-title"><a href="/product/{{card.slug}}">{{card.name}}</a>
+                                </strong>
+                                <a href="/product/{{card.slug}}">
+                                    <div class="Card-desc" style="
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+">{{card.description}}
+                                    </div>
+                                </a>
+                                <div class="Card-description">
+
+                                    <div class="Card-cost"><span class="Card-price">₽{{card.price}}</span>
+                                    </div>
+                                    <div class="Card-category">{{card.slug}}
+                                    </div>
+                                    <div class="Card-hover"><a class="Card-btn" href="/product/{{card.slug}}"><img
+                                            src="../../static/assets/img/icons/card/cart.svg" alt="cart.svg"/></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

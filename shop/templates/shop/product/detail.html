@@ -1,0 +1,133 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block content %}
+<div class="Middle Middle_top">
+    <div class="Section">
+        <div class="wrap">
+            <div class="Product">
+                <div class="ProductCard">
+                    <div class="ProductCard-look">
+                        <div class="ProductCard-photo">
+                            <img src="/media/{{product.image}}" alt="bigGoods.png"/>
+                        </div>
+                    </div>
+                    <div class="ProductCard-desc">
+                        <div class="ProductCard-header">
+                            <h2 class="ProductCard-title">{{product.name}}
+                            </h2>
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <div class="ProductCard-price">₽{{product.price}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ProductCard-cart">
+                            <div class="ProductCard-cartElement ProductCard-cartElement_amount">
+                                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                {{ cart_product_form }}
+                                {% csrf_token %}
+                                <input type="submit" value="Купить">
+                                </form>
+                            </div>
+                            <div id="modal_open" class="my_modal">
+                                <div class="my_modal-dialog">
+                                    <div class="my_modal-content">
+                                        <div class="my_modal-header">
+                                            <p class="my_modal-title">Поздравляем!</p>
+                                            <a href="#" title="Закрыть модальное окно" class="close">×</a>
+                                        </div>
+                                        <div class="my_modal-body">
+                                            <p>Товар успешно добавлен в корзину!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Tabs Tabs_default">
+                    <div class="Tabs-links"><a class="Tabs-link_ACTIVE Tabs-link"
+                                               href="#description"><span>Описание</span></a><a class="Tabs-link"
+                                                                                               href="#reviews"><span>Отзывы ({{product.reviews_num}} )</span></a>
+                    </div>
+                    <div class="Tabs-wrap">
+                        <div class="Tabs-block" id="description">
+                            <h2>Описание
+                            </h2>
+                            <p>{{product.description}}</p><img class="pict pict_right"
+                                                               src="../../static/assets/img/content/home/bigGoods.png"
+                                                               alt="bigGoods.png"/>
+
+                            <div class="clearfix">
+                            </div>
+                            <div class="table">
+                                <table>
+                                    <tr>
+                                        <th>Характеристика
+                                        </th>
+                                        <th>Значение
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>Тип устройства
+                                        </td>
+                                        <td>{{product.category}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="Tabs-block" id="reviews">
+                            <header class="Section-header">
+                                <h3 class="Section-title">{{product.reviews_num}} отзыв
+                                </h3>
+                            </header>
+                            <div class="Comments">
+                                {% for comment in comments %}
+                                <div class="Comment">
+                                    <div class="Comment-column Comment-column_pict">
+                                        <div class="Comment-avatar">
+                                        </div>
+                                    </div>
+                                    <div class="Comment-column">
+                                        <header class="Comment-header">
+                                            <div>
+                                                <strong class="Comment-title">{{comment.name}}
+                                                </strong><span class="Comment-date">{{comment.timestamp}}</span>
+                                            </div>
+                                        </header>
+                                        <div class="Comment-content">{{comment.description}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if user.is_authenticated %}
+                            <header class="Section-header Section-header_product">
+                                <h3 class="Section-title">Добавить отзыв
+                                </h3>
+                            </header>
+                            <div class="Tabs-addComment">
+                                <form class="form" action="/post/{{product.slug}}/" method="post">
+                                    <div class="form-group">
+                                        {{ comment_form.as_p }}
+                                        {% csrf_token %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn_muted" type="submit">Отправить отзыв
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .btn-1 {
+        display: flex;
+        width: 56px;
+        height: 56px;
+        background-color: #ebebeb;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        transition: all 300ms;
+    }
+
+    a {
+        text-decoration: none;
+        color: #0063d1;
+        border-bottom: 1px solid #84beff;
+        border-bottom: 1px solid rgba(0, 99, 209, 0);
+        padding-bottom: 0;
+        cursor: pointer;
+    }
+</style>
+<div class="Middle Middle_top">
+    <div class="Section">
+        <div class="wrap">
+            <form class="form Cart" action="#" method="post">
+                {% for item in cart %}
+                {% with product=item.product %}
+                <div class="Cart-product">
+                    <div class="Cart-block Cart-block_row">
+                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict"
+                                                                   href="/product/{{product.slug}}"><img
+                                class="Cart-img"
+                                src="{{product.image.url}}"
+                                alt="card.jpg"/></a>
+                        </div>
+                        <div class="Cart-block Cart-block_info"><a class="Cart-title" href="/product/{{product.slug}}">
+                            {{ product.name }}</a>
+                            <a class="Cart-title" href="/product/{{product.slug}}">
+                                <div class="Cart-desc">{{product.description}}
+                                </div>
+                            </a>
+                        </div>
+                        <div class="Cart-block Cart-block_price">
+                            <div class="Cart-price">{{ item.price }}₽
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Cart-block Cart-block_row">
+                        <div class="Cart-block Cart-block_seller">
+                            <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+
+                        </div>
+                        <div class="Cart-block Cart-block_amount">
+                            <div class="Cart-amount">
+                                <div class="Amount">
+                                    <a href="{% url "cart:cart_remove_1" product.id %}" class="btn-1"><p>-</p>
+                                    </a>
+                                    <input class="Amount-input form-input" value="{{ item.quantity }}" disabled/>
+                                    <a href="{% url "cart:cart_add_1" product.id %}" class="btn-1"><p>+</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Cart-block Cart-block_delete"><a class="Cart-delete" href="{% url "cart:cart_remove" product.id%}"><img
+                                    src="../../static/assets/img/icons/card/delete.svg" alt="delete.svg"/></a>
+                        </div>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+                <div class="Cart-total">
+                    <div class="Cart-block Cart-block_total">
+                        <strong class="Cart-title">Итого:
+                        </strong><span class="Cart-price">{{ cart.get_total_price }}₽</span>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="Cart-block"><a class="btn btn_success btn_lg" href="{% url "cart:order" %}">Оформить
+                        заказ</a>
+                        {% else %}
+                        <div>
+                            <p>Для оформления заказа необходимо зарегистрироваться или войти</p>
+                            <div class="row-block"><a class="btn btn_success btn_lg" href="{% url 'login' %}">Вход</a>
+                                ИЛИ <a class="btn btn_success btn_lg" href="{% url 'signup' %}">Регистрация</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
