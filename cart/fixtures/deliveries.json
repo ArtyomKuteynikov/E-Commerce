@@ -1,0 +1,1 @@
+[{"model": "cart.delivery", "pk": 1, "fields": {"name": "express", "cost": "500.00", "free_shipping": false, "free_shipping_amount": "0.00"}}, {"model": "cart.delivery", "pk": 2, "fields": {"name": "normal", "cost": "200.00", "free_shipping": true, "free_shipping_amount": "2000.00"}}]

@@ -56,10 +56,10 @@
                         <div class="Cart-block Cart-block_amount">
                             <div class="Cart-amount">
                                 <div class="Amount">
-                                    <a href="{% url "cart:cart_remove" product.id %}" class="btn-1"><p>-</p>
+                                    <a href="{% url "cart:cart_remove_1" product.id %}" class="btn-1"><p>-</p>
                                     </a>
                                     <input class="Amount-input form-input" value="{{ item.quantity }}" disabled/>
-                                    <a href="{% url "cart:cart_add" product.id %}" class="btn-1"><p>+</p>
+                                    <a href="{% url "cart:cart_add_1" product.id %}" class="btn-1"><p>+</p>
                                     </a>
                                 </div>
                             </div>

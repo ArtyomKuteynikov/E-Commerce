@@ -27,6 +27,10 @@ class Cart(object):
             self.cart[product_id]['quantity'] = quantity
         else:
             self.cart[product_id]['quantity'] += quantity
+        print(self.cart[product_id]['quantity'])
+        if self.cart[product_id]['quantity'] == 0:
+            if product_id in self.cart:
+                del self.cart[product_id]
         self.save()
 
     def save(self):

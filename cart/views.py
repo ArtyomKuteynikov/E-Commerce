@@ -21,6 +21,20 @@ def cart_add(request, product_id):
     return redirect('cart:cart_detail')
 
 
+def cart_add_1(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.add(product=product)
+    return redirect('cart:cart_detail')
+
+
+def cart_remove_1(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.add(product=product, quantity=-1)
+    return redirect('cart:cart_detail')
+
+
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
@@ -41,7 +55,7 @@ def order(request):
 def confirm_order(request):
     city = request.GET.get('city')
     address = request.GET.get('address')
-    delivery = 1 if request.GET.get('delivery') == 'express' else 0
+    delivery = Orders.object.get(name='express') if request.GET.get('delivery') == 'express' else Orders.object.get(name='normal')
     payment_method = 1 if request.GET.get('pay') == 'online' else 0
     new_order = Orders(city=city, address=address, delivery=delivery, payment_method=payment_method, user=request.user)
     new_order.save()
@@ -76,5 +90,7 @@ def payment(request, orderid):
     member = Orders.objects.get(id=orderid)
     card = ''
     if not member.payment_method:
-        card = random.randint(10000000, 99999999)
-    return render(request, 'cart/payment.html', {'order': member, 'card': card})
+        payment_method = 0
+    else:
+        payment_method = 1
+    return render(request, 'cart/payment.html', {'order': member, 'payment_method': payment_method})
