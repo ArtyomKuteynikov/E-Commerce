@@ -12,7 +12,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from cart.forms import CartAddProductForm
 
-from cart.models import Orders
+from cart.models import Orders, OrderItems
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
@@ -91,6 +91,7 @@ def product_list(request, category_slug=None):
     producer = request.GET.get('producer')
     if producer:
         products = products.filter(producer__icontains=producer)
+    sort = request.GET.get('sort')
     if request.GET.get('sort'):
         products = products.order_by(request.GET.get('sort'))
     choclates = Product.objects.all()
@@ -109,7 +110,8 @@ def product_list(request, category_slug=None):
                    'price_max': price_max,
                    'min_price': min_price,
                    'max_price': max_price,
-                   'producer': producer})
+                   'producer': producer,
+                   'sort': sort})
 
 
 def product_detail(request, slug):
@@ -136,5 +138,10 @@ def profile(request):
 def history(request):
     orders = list(Orders.objects.filter(user=request.user))
     print(orders)
-    last_order = orders[-1]
-    return render(request, 'shop/historyorder.html', {'orders': orders, 'last_order': last_order})
+    return render(request, 'shop/historyorder.html', {'orders': orders})
+
+
+def order(request, order_id):
+    order = Orders.objects.get(id=order_id)
+    orderitems = OrderItems.objects.filter(order_id=order)
+    return render(request, 'shop/oneorder.html', {'order': order, 'orderitems': orderitems})

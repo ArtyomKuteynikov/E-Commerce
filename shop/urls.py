@@ -12,4 +12,5 @@ urlpatterns = [
     url("edit-profile/", views.edit_profile, name="edit_profile"),
     url('password-change/', views.ChangePasswordView.as_view(), name='password_change'),
     url('history/', views.history, name='history'),
+    url('order/<int:order_id>/', views.order, name='order'),
 ]
